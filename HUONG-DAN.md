@@ -11,79 +11,34 @@ Bộ này gồm 2 file:
 > đã vá của nhà cung cấp. Dùng script khi bản vá chưa có (ví dụ PHP của FastPanel)
 > hoặc chưa cài kịp.
 
-Repo (private): <https://github.com/tiendungdev/php2shell-mitigation>
+Repo: <https://github.com/tiendungdev/php2shell-mitigation>
 
 ---
 
 ## 0. Chạy nhanh ngay sau khi SSH vào server
 
-Repo là **private**, nên `wget` cần một token GitHub mới tải được. Không có token,
-GitHub trả `404`.
-
-### Tạo token (làm 1 lần, trên trình duyệt)
-
-GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained
-tokens → Generate new token**:
-
-- **Repository access**: *Only select repositories* → `tiendungdev/php2shell-mitigation`
-- **Permissions → Repository → Contents**: *Read-only* (không cấp quyền nào khác)
-- **Expiration**: ngắn (ví dụ 30 ngày)
-
-Token này chỉ đọc được đúng repo này. Lộ ra thì cũng chỉ mất nội dung script.
-Hãy thu hồi khi không còn dùng.
-
-### Dán vào server (quyền root)
+Đăng nhập bằng root rồi dán:
 
 ```bash
-read -rsp 'GitHub token: ' GH_TOKEN; echo
-RC=$(umask 077; mktemp); printf 'header = Authorization: Bearer %s\n' "$GH_TOKEN" > "$RC"; unset GH_TOKEN
-wget -q --config="$RC" --header='Accept: application/vnd.github.raw' \
-  -O /root/php2shell-mitigate.sh \
-  'https://api.github.com/repos/tiendungdev/php2shell-mitigation/contents/php2shell-mitigate.sh?ref=main'
-rm -f "$RC"; head -1 /root/php2shell-mitigate.sh   # phải là: #!/usr/bin/env bash
+wget -qO /root/php2shell-mitigate.sh https://raw.githubusercontent.com/tiendungdev/php2shell-mitigation/main/php2shell-mitigate.sh
 bash /root/php2shell-mitigate.sh --status      # xem hiện trạng, không ghi gì
 bash /root/php2shell-mitigate.sh --dry-run     # xem file sẽ đổi, không ghi gì
 bash /root/php2shell-mitigate.sh --apply       # áp dụng
 ```
 
-Vì sao viết như vậy:
-
-- `read -rsp` nhập token mà không hiện ra màn hình và **không lưu vào history**.
-- Token được ghi vào một file tạm quyền `0600` (`umask 077`, chỉ root đọc được) rồi
-  đưa vào `wget` bằng `--config`. `printf` là lệnh có sẵn của bash nên token **không
-  nằm trên dòng lệnh** của process nào. Trên server shared hosting, user của site
-  đọc được dòng lệnh của mọi process (`ps aux`); nếu token nằm trong `--header=…`
-  thì sẽ bị lộ.
-- `wget` 1.19 (AlmaLinux 8) **không** đọc được `--config=<(…)` (báo
-  `Exiting due to error in /dev/fd/63`), nên phải dùng file tạm.
-- `unset GH_TOKEN` xoá token khỏi shell ngay; `rm -f "$RC"` xoá file tạm sau khi tải.
-
-Máy chưa có `wget` (AlmaLinux 8 bản tối giản) thì cài bằng `dnf -y install wget`, hoặc dùng
-`curl` (thường có sẵn; image tối giản có thể thiếu). `curl` đọc được header qua `<(…)`, nên không cần file tạm:
+Máy chưa có `wget` (AlmaLinux 8 bản tối giản) thì cài bằng `dnf -y install wget`, hoặc thay
+dòng đầu bằng `curl`:
 
 ```bash
-read -rsp 'GitHub token: ' GH_TOKEN; echo
-curl -fsSL -H @<(printf 'Authorization: Bearer %s\n' "$GH_TOKEN") \
-  -H 'Accept: application/vnd.github.raw' \
-  -o /root/php2shell-mitigate.sh \
-  'https://api.github.com/repos/tiendungdev/php2shell-mitigation/contents/php2shell-mitigate.sh?ref=main'
-unset GH_TOKEN; head -1 /root/php2shell-mitigate.sh
-bash /root/php2shell-mitigate.sh --status
+curl -fsSLo /root/php2shell-mitigate.sh https://raw.githubusercontent.com/tiendungdev/php2shell-mitigation/main/php2shell-mitigate.sh
 ```
-
-**Muốn mọi server chạy đúng một phiên bản**: thay `?ref=main` bằng `?ref=<commit-sha>`
-(xem sha trong tab *Commits* của repo).
-
-**Lỗi thường gặp khi tải**:
-
-| Triệu chứng | Nguyên nhân |
-|---|---|
-| `404` hoặc file rỗng | Sai token, token hết hạn, hoặc token chưa được chọn repo này |
-| `401` | Token sai hoặc đã bị thu hồi |
-| File tải về bắt đầu bằng `{` (JSON) | Thiếu header `Accept: application/vnd.github.raw` |
 
 Kiểm tra nhanh file vừa tải: `head -1 /root/php2shell-mitigate.sh` phải là
 `#!/usr/bin/env bash`.
+
+**Muốn mọi server chạy đúng một phiên bản**: thay `main` trong link bằng mã commit
+(xem trong tab *Commits* của repo), ví dụ `…/php2shell-mitigation/<commit-sha>/php2shell-mitigate.sh`.
+Link `main` có thể được GitHub cache vài phút sau khi sửa script.
 
 ---
 
