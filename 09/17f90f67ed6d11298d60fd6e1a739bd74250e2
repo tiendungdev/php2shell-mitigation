@@ -1,0 +1,19 @@
+HUONG-DAN.md
+  s_7959c609c0e278::t_0d2a16d88eb6c3 14,20,23,29-30,33,39-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0917f90f67ed6d11298d60fd6e1a739bd74250e2",
+  "prompts": {},
+  "sessions": {
+    "s_7959c609c0e278": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "s_7959c609c0e278",
+        "model": "unknown"
+      },
+      "human_author": "Tien Dung Dao <tiendungdev@gmail.com>"
+    }
+  }
+}
