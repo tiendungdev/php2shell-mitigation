@@ -1,0 +1,25 @@
+.gitattributes
+  s_b9bf440ffd0e3e::t_c1b1d2e0d97f22 1-2
+HUONG-DAN.md
+  s_b9bf440ffd0e3e::t_b18de4983b0ff6 1-366
+README.md
+  s_b9bf440ffd0e3e::t_74cb91a5b73357 1-10
+php2shell-mitigate.sh
+  s_b9bf440ffd0e3e::t_ad26009bc86732 1-520
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1042cc2f9204461ee9389f43fe3f2199fe07f264",
+  "prompts": {},
+  "sessions": {
+    "s_b9bf440ffd0e3e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ef63bb8a-2f16-4819-b04a-aafe1d01d83d",
+        "model": "unknown"
+      },
+      "human_author": "Tien Dung Dao <tiendungdev@gmail.com>"
+    }
+  }
+}
