@@ -26,6 +26,16 @@ bash /root/php2shell-mitigate.sh --dry-run     # xem file sẽ đổi, không gh
 bash /root/php2shell-mitigate.sh --apply       # áp dụng
 ```
 
+Hoặc gộp thành một dòng, tải xong là áp dụng luôn:
+
+```bash
+wget -qO /root/php2shell-mitigate.sh https://raw.githubusercontent.com/tiendungdev/php2shell-mitigation/main/php2shell-mitigate.sh && bash /root/php2shell-mitigate.sh --apply
+```
+
+Phải dùng `&&`, **không** dùng `&`. `&` đẩy `wget` chạy nền nên `bash` chạy ngay khi file
+chưa tải xong, có thể là file rỗng, tải dở hoặc bản cũ. `&&` chỉ chạy script khi tải thành công.
+Tương tự, đừng dùng `wget -qO- … | bash`: mất mạng giữa chừng thì bash vẫn chạy phần đã tải về.
+
 Máy chưa có `wget` (AlmaLinux 8 bản tối giản) thì cài bằng `dnf -y install wget`, hoặc thay
 dòng đầu bằng `curl`:
 
