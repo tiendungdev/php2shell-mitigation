@@ -1,0 +1,19 @@
+HUONG-DAN.md
+  s_f5636a0a73c191::t_7c53ee107a59d3 29-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "71192935c012b70b726b086a06e121d17418a469",
+  "prompts": {},
+  "sessions": {
+    "s_f5636a0a73c191": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e6ef0544-817c-4336-8120-6f72bfaabbd5",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Tien Dung Dao <tiendungdev@gmail.com>"
+    }
+  }
+}
