@@ -1,0 +1,21 @@
+HUONG-DAN.md
+  s_f5636a0a73c191::t_80c99fbeb33d4d 39-40,43
+  s_f5636a0a73c191::t_8db4982b474228 52-59
+  s_f5636a0a73c191::t_b6133877b9ea2a 62,65,70-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "be3ac69c9f3d0e7687e5ba1b2a33628bdaeae4e6",
+  "prompts": {},
+  "sessions": {
+    "s_f5636a0a73c191": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e6ef0544-817c-4336-8120-6f72bfaabbd5",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Tien Dung Dao <tiendungdev@gmail.com>"
+    }
+  }
+}
